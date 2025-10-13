@@ -29,7 +29,7 @@ export async function runPclCommand(command: string, args: string[]) {
 
     try {
         const javaArgs = ['-jar', command, ...args];
-        core.debug(`Running PCL command: java ${javaArgs.join(' ')}`);
+        core.debug(`Running Qube command: java ${javaArgs.join(' ')}`);
 
         await exec.exec(getJava(21), javaArgs, {
             silent: false,
@@ -47,7 +47,7 @@ export async function runPclCommand(command: string, args: string[]) {
             },
         });
     } catch (error) {
-        core.setFailed(`Failed to execute PCL command: ${(error as Error).message}`);
+        core.setFailed(`Failed to execute Qube command: ${(error as Error).message}`);
     }
 }
 

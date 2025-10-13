@@ -1,5 +1,5 @@
-name: 'Payara Cloud CLI Action'
-description: 'Deploy an app to Payara Cloud using Payara Cloud CLI (PCL)'
+name: 'Payara Qube CLI Action'
+description: 'Deploy an app to Payara Qube using Payara Qube CLI (PCL)'
 branding:
   icon: 'upload-cloud'
   color: 'orange'
