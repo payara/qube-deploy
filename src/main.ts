@@ -18,7 +18,7 @@ async function main() {
         // Set environment variables
         process.env.PCL_AUTH_TOKEN = token;
 
-        let binaryUrl = `https://nexus.payara.fish/repository/payara-artifacts/fish/payara/qube/qube-cli/2.0.0/qube-cli-${pclVersion}.jar`
+        let binaryUrl = `https://nexus.payara.fish/repository/payara-artifacts/fish/payara/qube/qube-cli/${pclVersion}/qube-cli-${pclVersion}.jar`
         let binaryName = `qube-cli-${pclVersion}.jar`;
         // Download PCL
         if (semver.lt(pclVersion, '2.0.0')) {
