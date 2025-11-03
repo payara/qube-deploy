@@ -33154,7 +33154,7 @@ function main() {
             }
             const pclJarPath = path.join(__dirname, binaryName);
             yield (0, download_1.downloadPclJarFile)(binaryUrl, pclJarPath);
-            core.info(`Binary file downloaded to ${pclJarPath}`);
+            core.debug(`Binary file downloaded to ${pclJarPath}`);
             yield (0, upload_1.uploadToPayaraCloud)(pclJarPath, subscriptionName, namespace, appName, artifact, isDeploy);
         }
         catch (error) {
