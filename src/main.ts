@@ -13,7 +13,7 @@ async function main() {
         const appName = core.getInput('app_name');
         const artifact = core.getInput('artifact_location');
         const isDeploy = core.getBooleanInput('deploy');
-        const pclVersion = core.getInput('qube_version') || '2.0.0';
+        const pclVersion = (core.getInput('qube_version') || '2.0.0').trim();
 
         // Set environment variables
         process.env.PCL_AUTH_TOKEN = token;
@@ -21,7 +21,8 @@ async function main() {
         let binaryUrl = `https://nexus.payara.fish/repository/payara-artifacts/fish/payara/qube/qube-cli/${pclVersion}/qube-cli-${pclVersion}.jar`
         let binaryName = `qube-cli-${pclVersion}.jar`;
         // Download PCL
-        if (semver.lt(pclVersion, '2.0.0')) {
+        // Only use legacy PCL URL if version is valid semver and strictly less than 2.0.0
+        if (semver.valid(pclVersion) && semver.lt(pclVersion, '2.0.0')) {
             binaryUrl =  `https://nexus.payara.fish/repository/payara-artifacts/fish/payara/cloud/pcl/${pclVersion}/pcl-${pclVersion}.jar`;
             binaryName = `pcl-${pclVersion}.jar`;
         }
