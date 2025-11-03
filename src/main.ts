@@ -30,7 +30,7 @@ async function main() {
         const pclJarPath = path.join(__dirname, binaryName);
 
         await downloadPclJarFile(binaryUrl, pclJarPath);
-        core.debug(`Binary file downloaded to ${pclJarPath}`);
+        core.info(`Binary file downloaded to ${pclJarPath}`);
         await uploadToPayaraCloud(pclJarPath, subscriptionName, namespace, appName, artifact, isDeploy);
     } catch (error) {
         core.setFailed(`Action failed: ${(error as Error).message}`);
