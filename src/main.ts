@@ -16,7 +16,7 @@ async function main() {
         const pclVersion = (core.getInput('qube_version') || '2.0.0').trim();
 
         // Set environment variables
-        process.env.PCL_AUTH_TOKEN = token;
+        process.env.QUBE_AUTH_TOKEN = token;
 
         let binaryUrl = `https://nexus.payara.fish/repository/payara-artifacts/fish/payara/qube/qube-cli/${pclVersion}/qube-cli-${pclVersion}.jar`
         let binaryName = `qube-cli-${pclVersion}.jar`;
