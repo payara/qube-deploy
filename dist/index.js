@@ -33151,6 +33151,7 @@ function main() {
             if (semver_1.default.valid(pclVersion) && semver_1.default.lt(pclVersion, '2.0.0')) {
                 binaryUrl = `https://nexus.payara.fish/repository/payara-artifacts/fish/payara/cloud/pcl/${pclVersion}/pcl-${pclVersion}.jar`;
                 binaryName = `pcl-${pclVersion}.jar`;
+                process.env.PCL_AUTH_TOKEN = token;
             }
             const pclJarPath = path.join(__dirname, binaryName);
             yield (0, download_1.downloadPclJarFile)(binaryUrl, pclJarPath);
