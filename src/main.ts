@@ -25,6 +25,7 @@ async function main() {
         if (semver.valid(pclVersion) && semver.lt(pclVersion, '2.0.0')) {
             binaryUrl =  `https://nexus.payara.fish/repository/payara-artifacts/fish/payara/cloud/pcl/${pclVersion}/pcl-${pclVersion}.jar`;
             binaryName = `pcl-${pclVersion}.jar`;
+            process.env.PCL_AUTH_TOKEN = token;
         }
 
         const pclJarPath = path.join(__dirname, binaryName);
