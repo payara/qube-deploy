@@ -13,7 +13,7 @@ async function main() {
         const appName = core.getInput('app_name');
         const artifact = core.getInput('artifact_location');
         const isDeploy = core.getBooleanInput('deploy');
-        let qubeEndpoint: string | null = core.getInput('qube_endpoint');
+        let qubeEndpoint = core.getInput('qube_endpoint');
         const pclVersion = (core.getInput('qube_version') || '2.0.0').trim();
 
         let binaryUrl = `https://nexus.payara.fish/repository/payara-artifacts/fish/payara/qube/qube-cli/${pclVersion}/qube-cli-${pclVersion}.jar`
@@ -26,14 +26,13 @@ async function main() {
             process.env.PCL_AUTH_TOKEN = token;
         } else {
             process.env.QUBE_AUTH_TOKEN = token;
-            qubeEndpoint = null;
         }
 
         const pclJarPath = path.join(__dirname, binaryName);
 
         await downloadPclJarFile(binaryUrl, pclJarPath);
         core.debug(`Binary file downloaded to ${pclJarPath}`);
-        await uploadToPayaraCloud(pclJarPath, subscriptionName, namespace, appName, artifact, isDeploy, qubeEndpoint);
+        await uploadToPayaraCloud(pclJarPath, subscriptionName, namespace, appName, artifact, isDeploy, qubeEndpoint, pclVersion);
     } catch (error) {
         core.setFailed(`Action failed: ${(error as Error).message}`);
     }

@@ -1,4 +1,5 @@
 import {runPclCommand} from '../pcl';
+import semver from 'semver';
 
 export async function uploadToPayaraCloud(
     pclExecutable: string,
@@ -7,7 +8,8 @@ export async function uploadToPayaraCloud(
     appName: string | null,
     warFile: string,
     isDeploy: boolean,
-    endpointUrl: string | null
+    endpointUrl: string | null,
+    pclVersion: string
 ) {
     const args: string[] = ['upload', '-n', namespace];
 
@@ -25,7 +27,7 @@ export async function uploadToPayaraCloud(
         args.push('--deploy');
     }
 
-    if (endpointUrl) {
+    if (endpointUrl && semver.valid(pclVersion) && semver.gte(pclVersion, '2.0.0')) {
         args.push('--endpoint', endpointUrl);
     }
 
