@@ -1,7 +1,7 @@
 name: 'Payara Qube CLI Action'
 description: 'Deploy an app to Payara Qube using Payara Qube CLI'
 branding:
-  icon: 'upload-qube'
+  icon: 'upload-cloud'
   color: 'orange'
 inputs:
   token:
