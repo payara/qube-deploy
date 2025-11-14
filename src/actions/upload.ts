@@ -6,7 +6,8 @@ export async function uploadToPayaraCloud(
     namespace: string,
     appName: string | null,
     warFile: string,
-    isDeploy: boolean
+    isDeploy: boolean,
+    endpointUrl: string | null
 ) {
     const args: string[] = ['upload', '-n', namespace];
 
@@ -22,6 +23,10 @@ export async function uploadToPayaraCloud(
 
     if (isDeploy) {
         args.push('--deploy');
+    }
+
+    if (endpointUrl) {
+        args.push('--endpoint', endpointUrl);
     }
 
     await runPclCommand(pclExecutable, args);

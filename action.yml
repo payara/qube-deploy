@@ -23,6 +23,9 @@ inputs:
     description: 'Deploy the app'
     required: false
     default: true
+  qube_endpoint:
+    description: 'Application Management endpoint of your Payara Qube instance if that’s your target. Only for version >= 2.0.0'
+    required: false
   qube_version:
     description: 'Version of Qube CLI to download'
     required: false
