@@ -15,9 +15,6 @@ async function main() {
         const isDeploy = core.getBooleanInput('deploy');
         const pclVersion = (core.getInput('qube_version') || '2.0.0').trim();
 
-        // Set environment variables
-        process.env.QUBE_AUTH_TOKEN = token;
-
         let binaryUrl = `https://nexus.payara.fish/repository/payara-artifacts/fish/payara/qube/qube-cli/${pclVersion}/qube-cli-${pclVersion}.jar`
         let binaryName = `qube-cli-${pclVersion}.jar`;
         // Download PCL
@@ -26,6 +23,8 @@ async function main() {
             binaryUrl =  `https://nexus.payara.fish/repository/payara-artifacts/fish/payara/cloud/pcl/${pclVersion}/pcl-${pclVersion}.jar`;
             binaryName = `pcl-${pclVersion}.jar`;
             process.env.PCL_AUTH_TOKEN = token;
+        } else {
+            process.env.QUBE_AUTH_TOKEN = token;
         }
 
         const pclJarPath = path.join(__dirname, binaryName);
