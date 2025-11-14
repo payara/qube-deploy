@@ -9,7 +9,7 @@ export async function uploadToPayaraCloud(
     warFile: string,
     isDeploy: boolean,
     endpointUrl: string | null,
-    pclVersion: string
+    qubeVersion: string
 ) {
     const args: string[] = ['upload', '-n', namespace];
 
@@ -27,7 +27,7 @@ export async function uploadToPayaraCloud(
         args.push('--deploy');
     }
 
-    if (endpointUrl && semver.valid(pclVersion) && semver.gte(pclVersion, '2.0.0')) {
+    if (endpointUrl && semver.valid(qubeVersion) && semver.gte(qubeVersion, '2.0.0')) {
         args.push('--endpoint', endpointUrl);
     }
 

@@ -14,15 +14,15 @@ async function main() {
         const artifact = core.getInput('artifact_location');
         const isDeploy = core.getBooleanInput('deploy');
         let qubeEndpoint = core.getInput('qube_endpoint');
-        const pclVersion = (core.getInput('qube_version') || '2.0.0').trim();
+        const qubeVersion = (core.getInput('qube_version') || '2.0.0').trim();
 
-        let binaryUrl = `https://nexus.payara.fish/repository/payara-artifacts/fish/payara/qube/qube-cli/${pclVersion}/qube-cli-${pclVersion}.jar`
-        let binaryName = `qube-cli-${pclVersion}.jar`;
+        let binaryUrl = `https://nexus.payara.fish/repository/payara-artifacts/fish/payara/qube/qube-cli/${qubeVersion}/qube-cli-${qubeVersion}.jar`
+        let binaryName = `qube-cli-${qubeVersion}.jar`;
         // Download PCL
         // Only use legacy PCL URL if version is valid semver and strictly less than 2.0.0
-        if (semver.valid(pclVersion) && semver.lt(pclVersion, '2.0.0')) {
-            binaryUrl =  `https://nexus.payara.fish/repository/payara-artifacts/fish/payara/cloud/pcl/${pclVersion}/pcl-${pclVersion}.jar`;
-            binaryName = `pcl-${pclVersion}.jar`;
+        if (semver.valid(qubeVersion) && semver.lt(qubeVersion, '2.0.0')) {
+            binaryUrl =  `https://nexus.payara.fish/repository/payara-artifacts/fish/payara/cloud/pcl/${qubeVersion}/pcl-${qubeVersion}.jar`;
+            binaryName = `pcl-${qubeVersion}.jar`;
             process.env.PCL_AUTH_TOKEN = token;
         } else {
             process.env.QUBE_AUTH_TOKEN = token;
@@ -32,7 +32,7 @@ async function main() {
 
         await downloadPclJarFile(binaryUrl, pclJarPath);
         core.debug(`Binary file downloaded to ${pclJarPath}`);
-        await uploadToPayaraCloud(pclJarPath, subscriptionName, namespace, appName, artifact, isDeploy, qubeEndpoint, pclVersion);
+        await uploadToPayaraCloud(pclJarPath, subscriptionName, namespace, appName, artifact, isDeploy, qubeEndpoint, qubeVersion);
     } catch (error) {
         core.setFailed(`Action failed: ${(error as Error).message}`);
     }
