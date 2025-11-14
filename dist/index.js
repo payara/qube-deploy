@@ -32979,7 +32979,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.uploadToPayaraCloud = uploadToPayaraCloud;
 const pcl_1 = __nccwpck_require__(5850);
-function uploadToPayaraCloud(pclExecutable, subscriptionName, namespace, appName, warFile, isDeploy) {
+function uploadToPayaraCloud(pclExecutable, subscriptionName, namespace, appName, warFile, isDeploy, endpointUrl) {
     return __awaiter(this, void 0, void 0, function* () {
         const args = ['upload', '-n', namespace];
         if (subscriptionName) {
@@ -32991,6 +32991,9 @@ function uploadToPayaraCloud(pclExecutable, subscriptionName, namespace, appName
         args.push(warFile);
         if (isDeploy) {
             args.push('--deploy');
+        }
+        if (endpointUrl) {
+            args.push('--endpoint', endpointUrl);
         }
         yield (0, pcl_1.runPclCommand)(pclExecutable, args);
     });
@@ -33141,6 +33144,7 @@ function main() {
             const appName = core.getInput('app_name');
             const artifact = core.getInput('artifact_location');
             const isDeploy = core.getBooleanInput('deploy');
+            let qubeEndpoint = core.getInput('qube_endpoint');
             const pclVersion = (core.getInput('qube_version') || '2.0.0').trim();
             let binaryUrl = `https://nexus.payara.fish/repository/payara-artifacts/fish/payara/qube/qube-cli/${pclVersion}/qube-cli-${pclVersion}.jar`;
             let binaryName = `qube-cli-${pclVersion}.jar`;
@@ -33153,11 +33157,12 @@ function main() {
             }
             else {
                 process.env.QUBE_AUTH_TOKEN = token;
+                qubeEndpoint = null;
             }
             const pclJarPath = path.join(__dirname, binaryName);
             yield (0, download_1.downloadPclJarFile)(binaryUrl, pclJarPath);
             core.debug(`Binary file downloaded to ${pclJarPath}`);
-            yield (0, upload_1.uploadToPayaraCloud)(pclJarPath, subscriptionName, namespace, appName, artifact, isDeploy);
+            yield (0, upload_1.uploadToPayaraCloud)(pclJarPath, subscriptionName, namespace, appName, artifact, isDeploy, qubeEndpoint);
         }
         catch (error) {
             core.setFailed(`Action failed: ${error.message}`);
