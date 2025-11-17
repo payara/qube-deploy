@@ -1,5 +1,6 @@
 import * as core from '@actions/core';
 import * as path from 'path';
+import semver from 'semver';
 import { downloadPclJarFile } from './download';
 import { uploadToPayaraCloud } from './actions/upload';
 
@@ -12,18 +13,26 @@ async function main() {
         const appName = core.getInput('app_name');
         const artifact = core.getInput('artifact_location');
         const isDeploy = core.getBooleanInput('deploy');
-        const pclVersion = core.getInput('pcl_version') || '1.1.0';
+        let qubeEndpoint = core.getInput('qube_endpoint');
+        const qubeVersion = (core.getInput('qube_version') || '2.0.0').trim();
 
-        // Set environment variables
-        process.env.PCL_AUTH_TOKEN = token;
-
+        let binaryUrl = `https://nexus.payara.fish/repository/payara-artifacts/fish/payara/qube/qube-cli/${qubeVersion}/qube-cli-${qubeVersion}.jar`
+        let binaryName = `qube-cli-${qubeVersion}.jar`;
         // Download PCL
-        const pclBinaryUrl = `https://nexus.payara.fish/repository/payara-artifacts/fish/payara/cloud/pcl/${pclVersion}/pcl-${pclVersion}.jar`;
-        const pclJarPath = path.join(__dirname, `pcl-${pclVersion}.jar`);
+        // Only use legacy PCL URL if version is valid semver and strictly less than 2.0.0
+        if (semver.valid(qubeVersion) && semver.lt(qubeVersion, '2.0.0')) {
+            binaryUrl =  `https://nexus.payara.fish/repository/payara-artifacts/fish/payara/cloud/pcl/${qubeVersion}/pcl-${qubeVersion}.jar`;
+            binaryName = `pcl-${qubeVersion}.jar`;
+            process.env.PCL_AUTH_TOKEN = token;
+        } else {
+            process.env.QUBE_AUTH_TOKEN = token;
+        }
 
-        await downloadPclJarFile(pclBinaryUrl, pclJarPath);
-        core.debug(`PCL JAR file downloaded to ${pclJarPath}`);
-        await uploadToPayaraCloud(pclJarPath, subscriptionName, namespace, appName, artifact, isDeploy);
+        const pclJarPath = path.join(__dirname, binaryName);
+
+        await downloadPclJarFile(binaryUrl, pclJarPath);
+        core.debug(`Binary file downloaded to ${pclJarPath}`);
+        await uploadToPayaraCloud(pclJarPath, subscriptionName, namespace, appName, artifact, isDeploy, qubeEndpoint, qubeVersion);
     } catch (error) {
         core.setFailed(`Action failed: ${(error as Error).message}`);
     }

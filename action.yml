@@ -1,5 +1,5 @@
-name: 'Payara Cloud CLI Action'
-description: 'Deploy an app to Payara Cloud using Payara Cloud CLI (PCL)'
+name: 'Payara Qube CLI Action'
+description: 'Deploy an app to Payara Qube using Payara Qube CLI'
 branding:
   icon: 'upload-cloud'
   color: 'orange'
@@ -23,10 +23,13 @@ inputs:
     description: 'Deploy the app'
     required: false
     default: true
-  pcl_version:
-    description: 'Version of PCL to download'
+  qube_endpoint:
+    description: 'Application Management endpoint of your Payara Qube instance if that’s your target. Only for version >= 2.0.0'
     required: false
-    default: '1.1.0'
+  qube_version:
+    description: 'Version of Qube CLI to download'
+    required: false
+    default: '2.0.0'
 runs:
   using: 'node12'
   main: 'dist/index.js'

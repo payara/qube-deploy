@@ -42,12 +42,12 @@ describe('PCL Commands', () => {
     });
 
     describe('runPclCommand', () => {
-        it('should execute the PCL command when Java is available', async () => {
+        it('should execute the Qube command when Java is available', async () => {
             (exec.exec as jest.Mock).mockResolvedValue(0);
-            await runPclCommand('pcl-1.1.0.jar', ['deploy']);
+            await runPclCommand('qube-2.0.0.jar', ['deploy']);
             expect(exec.exec).toHaveBeenCalledWith(
                 '/usr/lib/jvm/java-21/bin/java',
-                ['-jar', 'pcl-1.1.0.jar', 'deploy'],
+                ['-jar', 'qube-2.0.0.jar', 'deploy'],
                 expect.any(Object)
             );
         });
@@ -56,8 +56,8 @@ describe('PCL Commands', () => {
             (exec.exec as jest.Mock)
                 .mockImplementationOnce(() => Promise.resolve(0))
                 .mockRejectedValueOnce(new Error('PCL command failed'));
-            await runPclCommand('pcl-1.1.0.jar', ['deploy']);
-            expect(core.setFailed).toHaveBeenCalledWith('Failed to execute PCL command: PCL command failed');
+            await runPclCommand('qube-2.0.0.jar', ['deploy']);
+            expect(core.setFailed).toHaveBeenCalledWith('Failed to execute Qube command: PCL command failed');
         });
     });
 

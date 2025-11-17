@@ -11,6 +11,7 @@ export async function downloadPclJarFile(url: string, outputPath: string) {
         });
         response.data.pipe(writer);
         return new Promise((resolve, reject) => {
+            // @ts-ignore
             writer.on('finish', resolve);
             writer.on('error', reject);
         });
