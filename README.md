@@ -12,6 +12,7 @@ This repository contains a GitHub Action that automates deploying Jakarta EE and
 - `app_name`: **Optional**. App name for deployment. If not specified, inferred from the WAR filename.
 - `artifact_location`: **Required**. Path to the .war file (e.g., ./target/my-app.war).
 - `deploy`: **Optional**. Set `false` to upload only without immediate deployment. Set `true` to upload and deploy immediately in one step.
+- `qube_endpoint`: **Optional**. Application Management endpoint of your Payara Qube instance.
 - `qube_version`: **Optional**. Payara Qube CLI version. Default: '2.0.0'.
 
 ## Example Usage
